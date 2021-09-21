@@ -22,16 +22,16 @@ dns_raw = File.readlines("zone")
 # ..
 # FILL YOUR CODE HERE
 
-def parse_dns(dns_raw)
+def parse_dns(raw)
   domain_record = Hash.new
-  dns_raw.each { |record|
-    record_split = record.split(",")
-    if record_split[0].eql? ("A")
-      domain_record[record_split[1].strip] = { type: record_split[0].strip, target: record_split[2].strip }
-    elsif record_split[0].eql? ("CNAME")
-      domain_record[record_split[1].strip] = { type: record_split[0].strip, target: record_split[2].strip }
-    end
-  }
+  raw.
+    reject { |line| line.empty? }.
+    map { |line| line.strip.split(", ") }.
+    reject do |record|
+  end.
+    each_with_object({}) do |record, records|
+    domain_record[record[1]] = { type: record[0], target: record[2] }
+  end
   domain_record
 end
 
