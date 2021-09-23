@@ -1,9 +1,6 @@
 require "date"
 
 class Todo
-  # ..
-  # ..
-  # FILL YOUR CODE HERE
   def initialize(text, due_date, completed)
     @text = text
     @due_date = due_date
@@ -22,11 +19,24 @@ class Todo
     return @completed
   end
 
-  # ..
-  # ..
+  def overdue?
+    Date.today > @due_date
+  end
+
+  def due_today?
+    Date.today == @due_date
+  end
+
+  def due_later?
+    Date.today < @due_date
+  end
 
   def to_displayable_string
-    # FILL YOUR CODE HERE
+    if @completed
+      course_status = "[x] "
+    else
+      course_status = "[ ] "
+    end
   end
 end
 
@@ -36,46 +46,30 @@ class TodosList
   end
 
   def overdue
-    TodosList.new(@todos.filter { |todo| todo.due_date < Date.today })
+    TodosList.new(@todos.filter { |todo| todo.overdue? })
   end
 
   def due_today
-    TodosList.new(@todos.filter { |todo| todo.due_date == Date.today })
+    TodosList.new(@todos.filter { |todo| todo.due_today? })
   end
 
   def due_later
-    TodosList.new(@todos.filter { |todo| todo.due_date > Date.today })
+    TodosList.new(@todos.filter { |todo| todo.due_later? })
   end
-
-  # ..
-  # ..
-  # FILL YOUR CODE HERE
 
   def add(todo)
     @todos.push(todo)
   end
 
-  # ..
-  # ..
-
   def to_displayable_list
-    # FILL YOUR CODE HERE
     list_data = @todos.map { |todo|
-      course_status = ""
-      date_include = ""
-      if todo.completed
-        course_status = "[x] "
-      else
-        course_status = "[ ] "
-      end
       if todo.due_date == Date.today
-        date_include = ""
+        todo.to_displayable_string + todo.text
       else
-        date_include = " " + todo.due_date.to_s
+        todo.to_displayable_string + todo.text + " " + todo.due_date.to_s
       end
-      course_status + todo.text + date_include
     }
-    return list_data.join("\n")
+    list_data.join("\n")
   end
 end
 
