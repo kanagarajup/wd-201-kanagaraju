@@ -32,11 +32,17 @@ class Todo
   end
 
   def to_displayable_string
-    if @completed
-      course_status = "[x] "
-    else
-      course_status = "[ ] "
-    end
+    display_status = if @completed
+        "[x]"
+      else
+        "[ ]"
+      end
+    display_date = if @due_date == Date.today
+        ""
+      else
+        @due_date.to_s
+      end
+    "#{display_status} #{@text} #{display_date}"
   end
 end
 
@@ -62,14 +68,7 @@ class TodosList
   end
 
   def to_displayable_list
-    list_data = @todos.map { |todo|
-      if todo.due_date == Date.today
-        todo.to_displayable_string + todo.text
-      else
-        todo.to_displayable_string + todo.text + " " + todo.due_date.to_s
-      end
-    }
-    list_data.join("\n")
+    @todos.map { |todo| todo.to_displayable_string }.join("\n")
   end
 end
 
