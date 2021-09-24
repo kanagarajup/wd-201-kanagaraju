@@ -33,7 +33,7 @@ class Todo
 
   def to_displayable_string
     display_status = @completed ? "[x]" : "[ ]"
-    display_date = @due_date == Date.today ? "" : @due_date.to_s
+    display_date = @due_date == Date.today ? nil : @due_date.to_s
     "#{display_status} #{@text} #{display_date}"
   end
 end
