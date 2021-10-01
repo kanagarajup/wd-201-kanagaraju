@@ -19,7 +19,7 @@ class Todo < ActiveRecord::Base
 
   def to_displayable_string
     display_status = completed ? "[x]" : "[ ]"
-    display_date = due_date == Date.today ? nil : due_date.to_s
+    display_date = due_today? ? nil : due_date.to_s
     "#{id}. #{display_status} #{todo_text} #{display_date}"
   end
 
